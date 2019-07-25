@@ -1,36 +1,14 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-
-import Colors from '../component/HOC/Renkler'
-import Axios from 'axios';
-import { thisExpression } from '@babel/types';
-
+import {connect} from 'react-redux';
 
 class HomePage extends Component {
 
-  state={
-    posts:[]
-  }
   
-  componentWillMount() {
-    // component derlenmeden önce
-  }
-  
-
-  componentDidMount() {
-    // component derlendikten sonra ekrana render olmadan önce
-    Axios.get('https://jsonplaceholder.typicode.com/posts')
-    .then(res=> {
-      console.log(res);
-      this.setState({
-        posts:res.data.slice(0,10)
-      })
-    })
-  }
   
 
   render() {
-    const {posts} = this.state;
+    const {posts} = this.props;
     const postsList = posts.length ? (
       posts.map(post=> {
         return(
@@ -56,4 +34,11 @@ class HomePage extends Component {
   }
 }
 
-export default Colors(HomePage);
+
+const mapStateToProps=(state)=>{
+  return{
+    posts:state.posts
+  }
+}
+
+export default connect(mapStateToProps)(HomePage);
